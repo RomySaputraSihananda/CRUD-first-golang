@@ -16,15 +16,18 @@ var students []Student
 
 const (
 	PORT int = 4444
-	TAG string = "/api/v1/students"
+	TAG string = "/api/v1"
 )
 
 func main(){
-	http.HandleFunc(fmt.Sprintf("%s", TAG), getData)
-	http.HandleFunc(fmt.Sprintf("%s/add", TAG), addData)
+	http.HandleFunc(fmt.Sprintf("%s/students/", TAG), handleStudents)
 
 	log.Printf("listening on http://0.0.0.0:%d", PORT)
 	http.ListenAndServe(fmt.Sprintf(":%d", PORT), nil)
+}
+
+func handleStudents(w http.ResponseWriter, r *http.Request){
+
 }
 
 func getData(w http.ResponseWriter, r *http.Request){
