@@ -18,10 +18,20 @@ func init (){
 	fmt.Println("ok")
 }
 
-var Create = func(c *gin.Context) {
-	c.JSON(http.StatusBadRequest, Student{12, "oeir"})
+var Create = func(ctx *gin.Context) {
+	var requestBody Student
+
+	if err := ctx.BindJSON(&requestBody); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
+	requestBody.Id = len(students)
+	students = append(students, requestBody)
+
+	ctx.JSON(http.StatusOK, requestBody)
 }
 
-var Read = func(c *gin.Context) {
-	c.JSON(http.StatusBadRequest, Student{12, "oeir"})
+var Read = func(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, students)
 }
